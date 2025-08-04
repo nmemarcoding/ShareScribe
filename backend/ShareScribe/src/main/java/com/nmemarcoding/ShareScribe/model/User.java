@@ -23,6 +23,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long userId;
+    
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts = new ArrayList<>();
 
     @Column(nullable = false, unique = true, length = 50)
     private String username;
@@ -72,5 +75,20 @@ public class User {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    // Getters and setters for posts
+    public List<Post> getPosts() { return posts; }
+    public void setPosts(List<Post> posts) { this.posts = posts; }
+    
+    // Helper methods to manage the bidirectional relationship
+    public void addPost(Post post) {
+        posts.add(post);
+        post.setAuthor(this);
+    }
+    
+    public void removePost(Post post) {
+        posts.remove(post);
+        post.setAuthor(null);
+    }
 
 }
