@@ -103,7 +103,7 @@ public class PostService {
         dto.setId(post.getId());
         dto.setTitle(post.getTitle());
         dto.setContent(post.getContent());
-        dto.setAuthorId(post.getAuthor().getUserId());
+        // We no longer include authorId in the DTO for security reasons
         dto.setAuthorUsername(post.getAuthor().getUsername());
         dto.setCreatedAt(post.getCreatedAt());
         dto.setUpdatedAt(post.getUpdatedAt());

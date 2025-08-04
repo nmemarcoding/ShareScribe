@@ -6,7 +6,7 @@ public class PostDto {
     private Long id;
     private String title;
     private String content;
-    private Long authorId;
+    // Removed authorId for security
     private String authorUsername;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -39,13 +39,7 @@ public class PostDto {
         this.content = content;
     }
     
-    public Long getAuthorId() {
-        return authorId;
-    }
-    
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
-    }
+    // Removed authorId getter and setter for security
     
     public String getAuthorUsername() {
         return authorUsername;
