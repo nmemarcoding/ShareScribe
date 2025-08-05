@@ -3,7 +3,7 @@ import api from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 
 function CreatePost() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -26,11 +26,8 @@ function CreatePost() {
 
     try {
       await api.post('/posts', formData);
-      setSuccess('✅ Post created successfully!');
-      setFormData({ title: '', content: '' });
-
-      // Optional: redirect to feed or dashboard after delay
-      // setTimeout(() => navigate('/dashboard'), 1500);
+      setSuccess('✅ Post created successfully! Redirecting...');
+      setTimeout(() => navigate('/feed'), 1000); // ✅ Redirect to /feed after success
     } catch (err) {
       setError(err.response?.data || '❌ Failed to create post.');
     }
