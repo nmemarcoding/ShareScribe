@@ -102,6 +102,7 @@ npm start
 
 ### Frontend
 - Configured to communicate with deployed backend via Axios baseURL
+`https://sharescribe-9da42.web.app`
 
 ---
 
