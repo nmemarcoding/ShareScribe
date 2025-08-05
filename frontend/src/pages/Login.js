@@ -2,10 +2,9 @@ import { useState } from 'react';
 import api from '../services/apiService';
 import { useNavigate } from 'react-router-dom';
 
-function Register() {
+function Login() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: '',
     email: '',
     password: '',
   });
@@ -25,11 +24,11 @@ function Register() {
     setSuccess('');
 
     try {
-      await api.post('/register', formData);
-      setSuccess('✅ Registration successful! Redirecting to login...');
-      setTimeout(() => navigate('/login'), 1500); // Redirect to login instead of home
+      await api.post('/login', formData); 
+      setSuccess('✅ Login successful! Redirecting...');
+      setTimeout(() => navigate('/'), 1500);
     } catch (err) {
-      setError(err.response?.data || '❌ Registration failed.');
+      setError(err.response?.data || '❌ Login failed. Please check your credentials.');
     }
   };
 
@@ -38,28 +37,13 @@ function Register() {
       <div className="w-full max-w-md bg-white p-6 rounded-2xl shadow-xl">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-extrabold text-indigo-600 tracking-tight">ShareScribe</h1>
-          <p className="text-sm text-gray-500 mt-1">Join the future of blogging ✍️</p>
+          <p className="text-sm text-gray-500 mt-1">Welcome back — Log in to continue 📓</p>
         </div>
 
         {error && <div className="mb-4 text-red-500 text-sm text-center">{error}</div>}
         {success && <div className="mb-4 text-green-600 text-sm text-center">{success}</div>}
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-              Username
-            </label>
-            <input
-              type="text"
-              name="username"
-              id="username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm text-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none"
-            />
-          </div>
-
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email
@@ -94,17 +78,17 @@ function Register() {
             type="submit"
             className="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-xl hover:bg-indigo-700 transition duration-200 shadow-md"
           >
-            Create Account
+            Log In
           </button>
         </form>
 
         <p className="mt-6 text-xs text-gray-400 text-center">
-          Already have an account?{' '}
+          Don&apos;t have an account?{' '}
           <span
-            onClick={() => navigate('/login')}
+            onClick={() => navigate('/register')}
             className="text-indigo-600 font-medium cursor-pointer"
           >
-            Log in
+            Register
           </span>
         </p>
       </div>
@@ -112,4 +96,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Login;
