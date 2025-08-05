@@ -26,7 +26,7 @@ function Login() {
     try {
       await api.post('/login', formData); 
       setSuccess('✅ Login successful! Redirecting...');
-      setTimeout(() => navigate('/'), 1500);
+      setTimeout(() => navigate('/feed'), 1500);
     } catch (err) {
       setError(err.response?.data || '❌ Login failed. Please check your credentials.');
     }
