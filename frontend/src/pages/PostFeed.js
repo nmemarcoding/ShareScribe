@@ -8,6 +8,19 @@ function PostFeed() {
   const [posting, setPosting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('userInfo');
+    if (storedUser) {
+      try {
+        const parsed = JSON.parse(storedUser);
+        setUsername(parsed.username);
+      } catch {
+        setUsername('');
+      }
+    }
+  }, []);
 
   const fetchPosts = async () => {
     try {
@@ -41,11 +54,22 @@ function PostFeed() {
       await api.post('/posts', postForm);
       setSuccess('✅ Post created!');
       setPostForm({ title: '', content: '' });
-      fetchPosts(); // Refresh feed
+      fetchPosts();
     } catch {
       setError('❌ Failed to create post.');
     } finally {
       setPosting(false);
+    }
+  };
+
+  const handleDelete = async (postId) => {
+    if (!window.confirm('Are you sure you want to delete this post?')) return;
+
+    try {
+      await api.delete(`/posts/${postId}`);
+      setPosts((prev) => prev.filter((post) => post.id !== postId));
+    } catch {
+      alert('❌ Failed to delete post.');
     }
   };
 
@@ -107,11 +131,23 @@ function PostFeed() {
         {posts.map((post) => (
           <div
             key={post.id}
-            className="bg-white rounded-xl shadow-md p-4 transition hover:shadow-lg"
+            className="bg-white rounded-xl shadow-md p-4 transition hover:shadow-lg relative"
           >
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="text-lg font-semibold text-gray-800">{post.title}</h2>
-              <span className="text-xs text-gray-400">{formatDate(post.createdAt)}</span>
+            <div className="flex justify-between items-start mb-2">
+              <div>
+                <h2 className="text-lg font-semibold text-gray-800">{post.title}</h2>
+                <span className="text-xs text-gray-400">{formatDate(post.createdAt)}</span>
+              </div>
+
+              {/* Show delete button if current user is the author */}
+              {username === post.authorUsername && (
+                <button
+                  onClick={() => handleDelete(post.id)}
+                  className="text-red-500 hover:text-red-700 text-sm font-semibold"
+                >
+                  🗑️ Delete
+                </button>
+              )}
             </div>
             <p className="text-sm text-gray-600 whitespace-pre-wrap mb-2">{post.content}</p>
             <div className="text-xs text-indigo-500 font-medium">— {post.authorUsername}</div>
