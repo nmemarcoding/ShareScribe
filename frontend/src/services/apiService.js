@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const api = axios.create({
 //   baseURL: 'http://192.168.1.16:8080/api',
-     baseURL: 'https://springboot-service-55670318776.us-central1.run.app/api',
+     baseURL: 'https://sharescribe-service-55670318776.us-central1.run.app/api',
 
 });
 
